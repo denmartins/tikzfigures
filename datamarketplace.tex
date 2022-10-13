@@ -1,0 +1,73 @@
+\documentclass[margin=10pt]{standalone}
+\usepackage[utf8]{inputenc}
+\usepackage{tikz}
+\usepackage{xcolor}
+\usepackage{fontawesome5}
+%
+\usetikzlibrary{shapes, shapes.geometric, shapes.arrows, arrows, patterns, positioning, calc}
+%
+\newcommand{\dmcolor}{darkgray}
+
+% Define new styles and constants
+\tikzstyle{database}=[rectangle,
+    minimum width=0.2cm,
+    minimum height=0.2cm,
+    color=\dmcolor,
+]
+
+\tikzstyle{block}=[rectangle, 
+	draw=gray, 
+	text=black,
+	minimum width=1.4cm, 
+	minimum height=0.65cm,
+	color=\dmcolor,
+]
+
+\tikzstyle{user}=[rectangle,
+    minimum width=0.1cm,
+    minimum height=0.1cm,
+    font = \Large,
+    color=\dmcolor,
+]
+
+\tikzstyle{arrowicon} = [pos=0.5,
+    inner sep=0.05cm,
+    color=\dmcolor,
+    fill=white,
+]
+
+\tikzstyle{arrow} = [thick,->,-To]
+\tikzstyle{customlabel} = [color=\dmcolor]
+%
+\begin{document}
+\begin{tikzpicture}[]
+    % Data markeplace components
+    \node[database] (db1) {\faIcon{database}};
+    \node[database, right=1mm of db1] (db3) {\faIcon{database}};
+    \node[database, below=1mm of db1] (db2) {\faIcon{database}};
+    \node[database, right=1mm of db2] (db4) {\faIcon{database}};
+    \node[database, below right=-2.5mm and -2mm of db1] (db5) {\faIcon{database}};
+    \node[customlabel, below=2mm of db5] {Data};
+    \node[customlabel, above right=-0.7cm and 0.3cm of db3] (dbms) {\faIcon{server} DBMS};
+    \node[customlabel, below=2mm of dbms] {\faIcon{tools} Services};
+    % Data markeplace box
+    \node[rectangle, 
+        draw,
+        color=\dmcolor,
+        minimum width=3.5cm,
+        minimum height=1.7cm,
+        above right=-1.7cm and -0.7cm of db1] (datamarket) {};
+    % Users
+    \node[user, left=1cm of datamarket] (provider) {\faIcon[regular]{user}};
+    \node[user, right=1cm of datamarket] (consumer) {\faIcon[regular]{user}};
+    % Connections
+    \draw[arrow] ($(provider.east) + (0, 0.2)$)--($(datamarket.west) + (0, 0.2)$) node[arrowicon]{\faIcon{database}};
+    \draw[arrow] ($(datamarket.west) - (0, 0.2)$)--($(provider.east) - (0, 0.2)$) node[arrowicon]{\faIcon{dollar-sign}};
+    \draw[arrow] ($(datamarket.east) + (0, 0.2)$)--($(consumer.west) + (0, 0.2)$) node[arrowicon]{\faIcon{database}};
+    \draw[arrow] ($(consumer.west) - (0, 0.2)$)--($(datamarket.east) - (0, 0.2)$) node[arrowicon]{\faIcon{dollar-sign}};
+    % Labels
+    \node[customlabel, above right=0cm and -3.4cm of datamarket] {\faIcon{cloud} Data Marketplace};
+    \node[customlabel, below=0cm of provider] {provider};
+    \node[customlabel, below=0cm of consumer] {consumer};
+\end{tikzpicture}
+\end{document}
