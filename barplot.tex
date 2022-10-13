@@ -1,0 +1,50 @@
+\documentclass[margin=10pt]{standalone}
+\usepackage[utf8]{inputenc}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\usepackage{pgfplotstable}
+%
+\pgfplotsset{
+    % show left axis mark 
+    axis lines*=left,
+    grid=major,
+    grid style={line width=.1pt, draw=gray!20},
+    % define
+    legend style={
+        font = \small,
+        draw opacity = 1,
+        text opacity = 1,
+        very thin,
+        draw=none, % remove legend border
+    },
+    compat=newest,
+}
+%
+\pgfplotstableread[row sep=\\, col sep=&]{
+	Coverage  & GS		& GP 		& CART 		\\
+	1     	  & 0.5		& 0.34		& 0.33		\\
+	10     	  & 0.11 	& 0.09	  	& 0.06		\\
+	25   	  & 0.05	& 0.04		& 0.02		\\
+}\carconctable
+%
+\begin{document}
+\begin{tikzpicture}
+	\begin{axis}[
+        ybar, 
+        ymin = 0.0,
+        ymax = 1.0,
+        ytick distance = 0.1,
+        bar width=.3cm, 
+        xlabel = {Coverage}, 
+        ylabel = {Conciseness},
+        axis lines*=left, 
+        symbolic x coords={1, 10, 25}, 
+        xtick=data,]
+		\addplot[fill=teal!80,  ] table[x=Coverage, y=GS]{\carconctable};
+		\addplot[fill=purple!80,] table[x=Coverage, y=GP]{\carconctable};
+		\addplot[fill=gray!30,  ] table[x=Coverage, y=CART]{\carconctable};
+		\legend{GS, GP, CART}
+	\end{axis}
+\end{tikzpicture}
+
+\end{document}
