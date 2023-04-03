@@ -1,0 +1,32 @@
+\documentclass[margin=5pt]{standalone}
+\usepackage[utf8]{inputenc}
+\usepackage{tikz}
+\usepackage{circuitikz}
+\usetikzlibrary{circuits.logic.US}
+%
+\begin{document}
+\begin{tikzpicture}[circuit logic US]
+    %\node[] at (0,3) { $S = \bar{A} \cdot \bar{D} + \overline{C \cdot (A + B)}$};
+    %
+    \matrix[column sep=5mm]{
+        \node (iA)  {A}; &                                                  & & &\\
+                         & \node [and gate, logic gate inputs=ii] (a1) {};  & & &\\
+        \node (iD)  {D}; &                                                  & &\node [or gate] (o) {};& \node (out) {$S$};\\
+        \node (iC)  {C}; &                                                  & &\\
+                         &                                                  & \node [nand gate] (na1) {}; &\\
+        \node (iA1) {A}; &                                                  & &\\
+                         & \node [or gate] (o1) {};                         & &\\
+        \node (iB)  {B}; &                            & \\
+    };
+    %
+    \draw (iA.east) -- ++(right:3mm) |- (a1.input 1);
+    \draw (iD.east) -- ++(right:3mm) |- (a1.input 2);
+    \draw (iC.east) -- ++(right:3mm) |- (na1.input 1);
+    \draw (iA1.east) -- ++(right:3mm) |- (o1.input 1);
+    \draw (iB.east) -- ++(right:3mm) |- (o1.input 2);
+    \draw (o1.east) -- ++(right:3mm) |- (na1.input 2);
+    \draw (a1.output) -- ++(right:3mm) |- (o.input 1);
+    \draw (na1.output) -- ++(right:3mm) |- (o.input 2);
+    \draw (o.output) -- ++(right:3mm) |- (out);
+\end{tikzpicture}
+\end{document}
